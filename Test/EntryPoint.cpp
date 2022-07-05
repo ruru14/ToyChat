@@ -212,33 +212,38 @@ LRESULT CALLBACK SubEditProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         switch (wParam) {
         
         case VK_RETURN:
-            hdc = GetDC(GetParent(hEdit));
             //hdc = BeginPaint(GetParent(hEdit), &ps);
             //hdc = GetWindowDC(hWnd);
-            GetClientRect(GetParent(hEdit), &rt);
-            SetTextColor(hdc, 0x00000000);
-            SetBkMode(hdc, TRANSPARENT);
-            DrawText(hdc, _T("HELLO"), -1, &rt, DT_SINGLELINE|DT_CENTER|DT_VCENTER);
+            //DrawText(hdc, _T("HELLO"), -1, &rt, DT_SINGLELINE|DT_CENTER|DT_VCENTER);
 
 
             // Here your application is laid out.
             // For this introduction, we just print out "Hello, Windows desktop!"
             // in the top left corner.
-            /*TCHAR buff[1024];
-            GetWindowText(hEdit, buff, 1024);
-            SetWindowText(hEdit, _T(""));
-            DrawText(hdc, buff, -1, &rt, DT_CENTER);*/
             /*TextOut(hdc,
                 5, 5,
                 msg, _tcslen(msg));*/
             // End application-specific layout section.
-
-            //MessageBox(GetParent(hEdit), _T("ASDF"), _T("QWER"), 128);
+            //LPCWSTR test = std::to_wstring(tmp).c_str();
             //EndPaint(hWnd, &ps);
-            /*if (!GetAsyncKeyState(VK_CONTROL)) {
+            if (!GetAsyncKeyState(VK_CONTROL)) {
+                hdc = GetDC(GetParent(hEdit));
 
-            }*/
-            ReleaseDC(GetParent(hEdit), hdc);
+                GetClientRect(GetParent(hEdit), &rt);
+                SetTextColor(hdc, 0x00000000);
+                SetBkMode(hdc, TRANSPARENT);
+
+                TCHAR buff[1024];
+                GetWindowText(hEdit, buff, 1024);
+                int tmp = GetWindowTextLength(hEdit);
+                SetWindowText(hEdit, 0);
+                
+                //SetDlgItemText(hEdit, ID_EDIT, TEXT(""));
+                //Edit_SetText(hEdit, TEXT(""));
+                DrawText(hdc, buff, -1, &rt, DT_CENTER);
+                //Edit_Undo(hEdit);
+                ReleaseDC(GetParent(hEdit), hdc);
+            }
             //EndPaint(GetParent(hEdit), &ps);
             break;
         }
